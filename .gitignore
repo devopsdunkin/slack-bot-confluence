@@ -1,0 +1,7 @@
+.idea
+site.retry
+.vscode
+.venv
+venv
+external_roles
+.terraform
