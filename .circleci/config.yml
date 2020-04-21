@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
   build:
-    machine:
+    docker:
       image: circleci/python:3.7.7
       docker_layer_caching: true
     steps:
