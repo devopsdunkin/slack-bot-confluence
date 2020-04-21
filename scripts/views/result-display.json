@@ -1,0 +1,66 @@
+{
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Your search returned the following:"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "confluenceUrl1|*ConfluenceTitle1*>\nConfluenceBody1"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "confluenceUrl2|*ConfluenceTitle2*>\nConfluenceBody2"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "confluenceUrl3|*ConfluenceTitle3*>\nConfluenceBody3"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "confluenceUrl4|*ConfluenceTitle4*>\nConfluenceBody4"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "confluenceUrl5|*ConfluenceTitle5*>\nConfluenceBody5"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "See all results",
+						"emoji": true
+					},
+					"value": "see_all_results"
+				}
+			]
+		}
+	]
+}
