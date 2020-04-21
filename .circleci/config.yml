@@ -6,11 +6,9 @@ jobs:
     steps:
       - checkout
   build:
-    docker:
-      - image: circleci/python:3.7.7
-        environment:
-          FLASK_CONFIG: testing
-    machine: true
+    machine:
+      image: circleci/python:3.7.7
+      docker_layer_caching: true
     steps:
       - checkout
       # ... steps for building/testing app ...
