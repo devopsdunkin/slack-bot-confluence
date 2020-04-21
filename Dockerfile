@@ -1,5 +1,6 @@
 FROM python:alpine3.11
 COPY ./slack-bot-confluence /app
+COPY ./requirements.txt /app
 
 WORKDIR /app
 
