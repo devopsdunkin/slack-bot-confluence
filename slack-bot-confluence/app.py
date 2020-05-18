@@ -3,44 +3,55 @@ from flask import Flask
 from flask import request
 from flask import make_response
 from slackeventsapi import SlackEventAdapter
+from config import BotConfig, SlackService
 
-import os
 import json
 import requests
 
 app = Flask(__name__)
 # executor = Executor(app)
 
+bot_config = BotConfig()
+slack = SlackService()
+
 slack_events_adapter = SlackEventAdapter(
-    os.environ["SLACK_SIGNING_SECRET"], "/slack/events", app
+    bot_config.get_slack_secret, "/slack/events", app
 )
 
-slack_web_client = WebClient(token=os.environ["SLACK_API_TOKEN"])
-
-# Variables that we do not need to change
-URI = "wiki/rest/api/content/search"
-QUERY = "cql=text"
-BASE_URL = os.environ["CONFLUENCE_URL"].rstrip("/")
+slack_web_client = WebClient(token=bot_config.get_slack_token)
 
 
 @app.route("/search-confluence", methods=["POST"])
 def search_confluence():
-    trigger_id = request.form.get("trigger_id")
-    search_criteria = request.form.get("text")
+    payload = request.form.to_dict()
 
-    # Need to grab the payload and get the text to search for
+    FULL_URL = "{}~{}".format(bot_config.get_confluence_url, payload["text"].strip())
 
-    FULL_URL = "{}/{}?{}~{}".format(BASE_URL, URI, QUERY, search_criteria)
-
-    response = requests.get(FULL_URL, auth=(os.environ["CONFLUENCE_USER"], os.environ["CONFLUENCE_PASS"]))
+    response = requests.get(
+        FULL_URL, auth=(bot_config.get_confluence_user, bot_config.get_confluence_token)
+    )
 
     # Create blocks from requests.get
-    if response is not None:
+    # Successful response, let's parse the response payload so we can work with it later on
+    if response.status_code == "200":
+        with open("slack-bot-confluence/views/result-display.json") as json_file:
+            data = json.load(json_file)
+
+        slack.open_view(trigger_id=payload["trigger_id"], view=data)
         # slack chat_postEphermal message with top 5 results in a block
+    # Something done fucked up. We will return the error to the user via Slack
     else:
+        pass
         # slack chat_postEpheraml message indicating no results found
 
     return make_response("", 200)
+
+
+# def compose_slack_block():
+
+
+# def return_confluence_results():
+# placeholder
 
 
 def main():
